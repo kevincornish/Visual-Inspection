@@ -33,11 +33,11 @@ def merge_images():
 def particle_count():
     im = cv2.imread('images/merged_all.jpg') #load merged frames
     gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY) #convert to gray
-    gray = cv2.GaussianBlur(gray, (5,5), 0) #add slight blur to clean edges
+    gray = cv2.GaussianBlur(gray, (3,3), 0) #add slight blur to clean edges
     maxValue = 255
-    blockSize = 3 # sensitivity
-    C = -3 # constant to be subtracted
-    im_thresholded = cv2.adaptiveThreshold(gray, maxValue, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, blockSize, C)
+    blockSize = 21 # sensitivity
+    C = -23 # constant to be subtracted
+    im_thresholded = cv2.adaptiveThreshold(gray, maxValue, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, blockSize, C)
     r_o_i = im_thresholded[131:338, 81:265] # grab the region of interest we want
     labelarray, particle_count = ndimage.label(r_o_i) # count particles found in ROI window
     if debug:
