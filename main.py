@@ -1,6 +1,8 @@
 import cv2
 import pylab
 from scipy import ndimage
+import time
+st = time.time()
 camera = cv2.VideoCapture(0)
 
 def capture_frames(frames):
@@ -60,4 +62,7 @@ def show_images():
 #capture_frames(3)
 merge_images()
 particle_count()
+et = time.time()
+elapsed_time = et - st
+print('Execution time:', elapsed_time, 'seconds')
 show_images()
