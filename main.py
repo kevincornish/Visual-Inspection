@@ -38,15 +38,26 @@ def particle_count():
     r_o_i = im_thresholded[131:338, 81:265] # grab the region of interest we want
     labelarray, particle_count = ndimage.label(r_o_i) # count particles found in ROI window
     print (f"Particles found: {particle_count}")
-    pylab.figure("Merged")
+
+
+def show_images():
+    im = cv2.imread('images/1.png')
+    im_merged = cv2.imread('images/merged_all.jpg')
+    gray = cv2.imread('images/grey_merged.jpg')
+    im_thresholded = cv2.imread('images/threshold_merged.jpg')
+    r_o_i = im_thresholded[131:338, 81:265]
+    pylab.figure("1st Frame")
     pylab.imshow(im)
+    pylab.figure("Merged Frames")
+    pylab.imshow(im_merged)
     pylab.figure("Grayscale")
     pylab.imshow(gray)
     pylab.figure("Thresholded")
     pylab.imshow(im_thresholded)
     pylab.figure("ROI")
     pylab.imshow(r_o_i)
+    pylab.show()
 #capture_frames(3)
 merge_images()
 particle_count()
-pylab.show()
+show_images()
