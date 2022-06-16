@@ -14,19 +14,25 @@ def capture_frames(frames):
 def merge_images():
     img1 = cv2.imread('images/1.png')
     img2 = cv2.imread('images/2.png')
-    merge = cv2.addWeighted(img1, 0.5, img2, 0.5, 0)
-    cv2.imwrite("images/merged.jpg", merge)
-    print (f"2 frames merged")
+    merge1 = cv2.addWeighted(img1, 0.5, img2, 0.5, 0)
+    img3 = cv2.imread('images/3.png')
+    img4 = cv2.imread('images/4.png')
+    merge2 = cv2.addWeighted(img3, 0.5, img4, 0.5, 0)
+    cv2.imwrite("images/merged1.jpg", merge1)
+    cv2.imwrite("images/merged2.jpg", merge2)
+    merge3 = cv2.addWeighted(merge1, 0.5, merge2, 0.5, 0)
+    cv2.imwrite("images/merged_all.jpg", merge3)
+    print (f"4 frames merged")
 
 
 def particle_count():
-    im = cv2.imread('images/merged.jpg') #load merged frames
+    im = cv2.imread('images/merged_all.jpg') #load merged frames
     gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY) #convert to gray
     gray = cv2.GaussianBlur(gray, (5,5), 0) #add slight blur to clean edges
     cv2.imwrite("images/grey_merged.jpg", gray) # save the grayscale image
     maxValue = 255
     blockSize = 3 # sensitivity
-    C = -5 # constant to be subtracted
+    C = -3 # constant to be subtracted
     im_thresholded = cv2.adaptiveThreshold(gray, maxValue, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, blockSize, C)
     cv2.imwrite("images/threshold_merged.jpg", im_thresholded) # save the thresholded image
     r_o_i = im_thresholded[131:338, 81:265] # grab the region of interest we want
