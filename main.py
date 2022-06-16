@@ -11,24 +11,36 @@ def capture_frames(frames):
         cv2.imwrite(f"images/{frame}.png", image)
     print(f"{frame} frames captured")
 
+def merge_images():
+    img1 = cv2.imread('images/1.png')
+    img2 = cv2.imread('images/2.png')
+    merge = cv2.addWeighted(img1, 0.5, img2, 0.5, 0)
+    cv2.imwrite("images/merged.jpg", merge)
+    print (f"2 frames merged")
+
+
 def particle_count():
-    im = cv2.imread('images/1.png') #load image 1
+    im = cv2.imread('images/merged.jpg') #load merged frames
     gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY) #convert to gray
     gray = cv2.GaussianBlur(gray, (5,5), 0) #add slight blur to clean edges
-    cv2.imwrite("images/grey_2.jpg", gray) # save the grayscale image
+    cv2.imwrite("images/grey_merged.jpg", gray) # save the grayscale image
     maxValue = 255
     blockSize = 3 # sensitivity
-    C = -3 # constant to be subtracted
+    C = -5 # constant to be subtracted
     im_thresholded = cv2.adaptiveThreshold(gray, maxValue, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, blockSize, C)
-    labelarray, particle_count = ndimage.label(im_thresholded)
+    cv2.imwrite("images/threshold_merged.jpg", im_thresholded) # save the thresholded image
+    r_o_i = im_thresholded[131:338, 81:265] # grab the region of interest we want
+    labelarray, particle_count = ndimage.label(r_o_i) # count particles found in ROI window
     print (f"Particles found: {particle_count}")
-    pylab.figure("Original")
+    pylab.figure("Merged")
     pylab.imshow(im)
     pylab.figure("Grayscale")
     pylab.imshow(gray)
     pylab.figure("Thresholded")
     pylab.imshow(im_thresholded)
-    pylab.show()
-
-capture_frames(3)
+    pylab.figure("ROI")
+    pylab.imshow(r_o_i)
+#capture_frames(3)
+merge_images()
 particle_count()
+pylab.show()
