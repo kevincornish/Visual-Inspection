@@ -66,11 +66,11 @@ def get_height():
     #print('height, width:', gray.shape) #height and width of image
     ret, thresholded = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
     x, y, width, height = cv2.boundingRect(thresholded)
+    text = f"Height: {height} Width: {width}"
+    text_position = (5,15)
+    cv2.putText(thresholded, text, org, fontFace = cv2.FONT_HERSHEY_SIMPLEX, fontScale = 0.5, color = (250,225,100))
     cv2.imwrite(f"{img_path}thresholded.jpg",thresholded)
     cv2.imwrite(f"{img_path}grayscale.jpg",gray)
-    if debug:
-        print('width:', width)
-        print('height:', height)
 
 def show_images():
     im = cv2.imread(f'{img_path}1.jpeg')

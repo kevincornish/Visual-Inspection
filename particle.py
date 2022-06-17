@@ -4,12 +4,13 @@ from scipy import ndimage
 import time
 import configparser
 import argparse
-
 ## load config
 config = configparser.ConfigParser()
 config_ini = "config.ini"
 config.read(config_ini)
 debug = config.get("SETTINGS", "debug")
+if debug:
+    st = time.time()
 frames = config.getint("SETTINGS", "frames")
 camera = cv2.VideoCapture(0)
 img_path = ("images/particle/")
@@ -70,13 +71,19 @@ def set_roi():
     cv2.imwrite(f"{img_path}roi_cropped.jpg",roi_cropped) # save cropped image
 
 def get_roi():
-    merged_all = cv2.imread('images/merged_all.jpg')
+    if debug:
+        st = time.time()
+    merged_all = cv2.imread(f'{img_path}merged_all.jpg')
     y1 = config.getint("PARTICLE_ROI", "y1")
     y2 = config.getint("PARTICLE_ROI", "y2")
     x1 = config.getint("PARTICLE_ROI", "x1")
     x2 = config.getint("PARTICLE_ROI", "x2")
     roi_cropped = merged_all[y1:y2, x1:x2] # crop image
     cv2.imwrite(f"{img_path}roi_cropped.jpg",roi_cropped) # save cropped image
+    if debug:
+        et = time.time()
+        elapsed_time = et - st
+        print('Execution time (get_roi):', elapsed_time, 'seconds')
 
 def particle_count():
     if debug:
@@ -90,9 +97,11 @@ def particle_count():
     gray = cv2.GaussianBlur(gray, (blur,blur), 0) #add slight blur to clean edges
     im_thresholded = cv2.adaptiveThreshold(gray, maxValue, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, blockSize, constant)
     labelarray, particle_count = ndimage.label(im_thresholded) # count particles found in ROI window
+    text = f"Particles: {particle_count}"
+    text_position = (5,15)
+    cv2.putText(im_thresholded, text, text_position, fontFace = cv2.FONT_HERSHEY_SIMPLEX, fontScale = 0.5, color = (250,225,100))
     cv2.imwrite(f"{img_path}grayscale.jpg", gray) # save the grayscale image
     cv2.imwrite(f"{img_path}thresholded.jpg", im_thresholded) # save the thresholded image
-    print (f"Particles found: {particle_count}")
     if debug:
         et = time.time()
         elapsed_time = et - st
@@ -119,5 +128,9 @@ if args.roi:
 else:
     get_roi()
 particle_count()
+if debug:
+    et = time.time()
+    elapsed_time = et - st
+    print('Execution time (total):', elapsed_time, 'seconds')
 if args.show:
     show_images()
