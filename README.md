@@ -37,25 +37,8 @@ pip install -r requirements.txt
 
 ## Running the script
 
-You can use the demo images by renaming the demo_img folder to images, if you want to use your own images, uncomment the capture_frames function and run.
-
-To run particle or tip check using the demo settings
+You can use the demo images by renaming the demo_img folder to images.
 
 ```bash
-python particle.py
-python tip.py
-```
-
-To set a new region of interest pass the roi arg
-
-```bash
-python particle.py --roi yes
-python tip.py --roi yes
-```
-
-To show all images processed pass the show arg
-
-```bash
-python tip.py --show yes
-python particle.py --show yes
+python main.py
 ```
