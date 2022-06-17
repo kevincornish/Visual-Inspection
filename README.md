@@ -39,6 +39,26 @@ pip install -r requirements.txt
 
 You can use the demo images by renaming the demo_img folder to images.
 
+There is an easy to use GUI to change settings and reprocess images on the fly to test results.
+
 ```bash
 python main.py
 ```
+
+## Screenshots
+
+Main GUI - Detection settings are loaded from config.ini and are reloaded on save.
+
+![Main GUI](https://github.com/kevincornish/Visual-Inspection/blob/main/screenshots/main_gui.png?raw=true)
+
+Generate ROI Particle - After clicking reset ROI you click to drag the region of interest for particles and then hit enter.
+
+![Generate ROI Particle](https://github.com/kevincornish/Visual-Inspection/blob/main/screenshots/generating_roi.png?raw=true)
+
+Generate ROI Fill Level - Now you can perform the second ROI for fill level detection, once selected hit enter and then escape to close.
+
+![Generate ROI Fill Level](https://github.com/kevincornish/Visual-Inspection/blob/main/screenshots/generating_roi_level.png?raw=true)
+
+Particle Detection results
+
+![Particle Detection results](https://github.com/kevincornish/Visual-Inspection/blob/main/screenshots/particle_detection.png?raw=true)
