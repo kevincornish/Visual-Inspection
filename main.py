@@ -21,7 +21,7 @@ def fill_level_settings():
             config.write(config_file)
 
     save_button = tkinter.Button(fill_level_window, text="Save", command=saveConfig).pack()
-    close_button = tkinter.Button(fill_level_window, text="close", command=fill_level_window.destroy).pack(pady=20)
+    close_button = tkinter.Button(fill_level_window, text="Close", command=fill_level_window.destroy).pack(pady=20)
 
 def particle_settings():
     particle_blur = config.get("PARTICLE_SETTING","blur")
@@ -66,20 +66,19 @@ def particle_settings():
             config.write(config_file)
 
     save_button = tkinter.Button(particle_window, text="Save", command=saveConfig).pack()
-    close_button = tkinter.Button(particle_window, text="close", command=particle_window.destroy).pack(pady=20)
+    close_button = tkinter.Button(particle_window, text="Close", command=particle_window.destroy).pack(pady=20)
 
 
 def detection():
     detection_window = tkinter.Toplevel()
     detection_window.title("Detection")
-    detection_window_label = tkinter.Label(detection_window, text="Particle Detection").pack()
-    detection_capture_button = tkinter.Button(detection_window, text="Capture Image", command=capture_frames).pack()
-    detection_merge_button = tkinter.Button(detection_window, text="Merge Images", command=merge_images).pack()
-    detection_get_roi_button = tkinter.Button(detection_window, text="Crop ROI", command=get_roi).pack()
-    detection_reset_roi_button = tkinter.Button(detection_window, text="Reset ROI", command=set_roi).pack()
-    detection_fill_level_button = tkinter.Button(detection_window, text="Find Fill Level", command=fill_level).pack()
-    particle_analysis_button = tkinter.Button(detection_window, text="Find Particle", command=particle_count).pack()
-    particle_show_button = tkinter.Button(detection_window, text="Show Result", command=show_images).pack()
+    detection_capture_button = tkinter.Button(detection_window, text="Capture Image", command=capture_frames).pack(pady=5)
+    detection_merge_button = tkinter.Button(detection_window, text="Merge Images", command=merge_images).pack(pady=5)
+    detection_get_roi_button = tkinter.Button(detection_window, text="Crop ROI", command=get_roi).pack(pady=5)
+    detection_reset_roi_button = tkinter.Button(detection_window, text="Reset ROI", command=set_roi).pack(pady=5)
+    detection_fill_level_button = tkinter.Button(detection_window, text="Find Fill Level", command=fill_level).pack(pady=5)
+    particle_analysis_button = tkinter.Button(detection_window, text="Find Particle", command=particle_count).pack(pady=5)
+    particle_show_button = tkinter.Button(detection_window, text="Show Result", command=show_images).pack(pady=5)
     close_button = tkinter.Button(detection_window, text="Close", command=detection_window.destroy).pack(pady=20)
 
 def general_settings():
@@ -109,10 +108,11 @@ def general_settings():
 
 
 button_window = tkinter.Tk()
-detection_button = tkinter.Button(button_window, text="Detection", command=detection).pack()
-general_settings_button = tkinter.Button(button_window, text="General Settings", command=general_settings).pack()
-particle_settings_button = tkinter.Button(button_window, text="Particle Settings", command=particle_settings).pack()
-fill_level_settings_button = tkinter.Button(button_window, text="Fill Level Settings", command=fill_level_settings).pack()
+button_window.title("Visual Inspection")
+detection_button = tkinter.Button(button_window, text="Detection", command=detection).pack(pady=5)
+general_settings_button = tkinter.Button(button_window, text="General Settings", command=general_settings).pack(pady=5)
+particle_settings_button = tkinter.Button(button_window, text="Particle Settings", command=particle_settings).pack(pady=5)
+fill_level_settings_button = tkinter.Button(button_window, text="Fill Level Settings", command=fill_level_settings).pack(pady=5)
 
 def close():
     answer = askyesno(title='confirmation', message='Are you sure that you want to quit?')
