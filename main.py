@@ -3,13 +3,21 @@ import pylab
 from scipy import ndimage
 import time
 import configparser
+import argparse
 
+## load config
 config = configparser.ConfigParser()
 config_ini = "config.ini"
 config.read(config_ini)
-camera = cv2.VideoCapture(0)
 debug = config.get("SETTINGS", "debug")
 frames = config.get("SETTINGS", "frames")
+camera = cv2.VideoCapture(0)
+
+## check for args passed
+parser = argparse.ArgumentParser()
+parser.add_argument('--roi', required=False)
+parser.add_argument('--show', required=False)
+args = parser.parse_args()
 
 def edit_config(setting, parameter, value):
     config.set(setting, parameter, value)
@@ -59,6 +67,15 @@ def set_roi():
     edit_config("ROI", "x2", str(roi[0]+roi[2]))
     cv2.imwrite("images/roi_cropped.jpg",roi_cropped) # save cropped image
 
+def get_roi():
+    merged_all = cv2.imread('images/merged_all.jpg')
+    y1 = config.getint("ROI", "y1")
+    y2 = config.getint("ROI", "y2")
+    x1 = config.getint("ROI", "x1")
+    x2 = config.getint("ROI", "x2")
+    roi_cropped = merged_all[y1:y2, x1:x2] # crop image
+    cv2.imwrite("images/roi_cropped.jpg",roi_cropped) # save cropped image
+
 def particle_count():
     if debug:
         st = time.time()
@@ -94,6 +111,10 @@ def show_images():
 
 #capture_frames(frames)
 merge_images()
-set_roi()
+if args.roi:
+    set_roi()
+else:
+    get_roi()
 particle_count()
-show_images()
+if args.show:
+    show_images()
